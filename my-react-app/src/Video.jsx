@@ -73,7 +73,7 @@ const VideoPage = () => {
         <h1 className="text-4xl text-white mb-8 font-bold">This is the Player!</h1>
         <div className="mb-8">
           <ReactPlayer
-            url="https://youtu.be/TL2I1dy10I0?si=l6HO1hQQlQuQsM-F"
+            url="https://drive.google.com/file/d/1oBb-8sWqI0q5tP0VSXiXSoUb7EOykF6y/view"
             controls={false}
             onProgress={handleProgress}
             onPlay={() => setVideoStarted(true)}
