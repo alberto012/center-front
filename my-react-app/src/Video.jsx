@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import Modal from './Modal';
+import VideoSpinner from './tools/Spinner';
 import ProgressBar from './Progreso'; // Importamos el componente ProgressBar
 import futuro from '../images/futuro.jfif';
 import Memo from './Memo';
@@ -18,6 +19,7 @@ const VideoPage = () => {
   const [videoStarted, setVideoStarted] = useState(false);
   const [lastModalTime, setLastModalTime] = useState(0);
   const [lastMemoTime, setLastMemoTime] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (showModal) {
@@ -42,13 +44,8 @@ const VideoPage = () => {
     }
   };
 
-  const handleCloseModal = (isTrue) => {
+  const handleCloseModal = () => {
     setShowModal(false);
-    const question = isTrue ? 'question1' : 'question2';
-    setAnswered(prevState => ({
-      ...prevState,
-      [question]: true
-    }));
     setVideoPaused(false);
   };
 
@@ -58,7 +55,6 @@ const VideoPage = () => {
   };
 
   const handleSubmitModal = (question, answer) => {
-    // Aquí puedes manejar la lógica para enviar la respuesta a tu backend, por ejemplo:
     console.log(`Question ${question} answered with ${answer}`);
   };
 
@@ -67,28 +63,49 @@ const VideoPage = () => {
     console.log(`Question ${question} answered with ${answer}`);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 4000);
+  }, []);
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900">
-      <div className="text-center">
-        <h1 className="text-4xl text-white mb-8 font-bold">This is the Player!</h1>
-        <div className="mb-8">
-          <ReactPlayer
-            url="https://drive.google.com/file/d/1oBb-8sWqI0q5tP0VSXiXSoUb7EOykF6y/view"
-            controls={false}
-            onProgress={handleProgress}
-            onPlay={() => setVideoStarted(true)}
-            playing={!videoPaused}
-            width='100%'
-            height='100%'
-            style={{ border: '1px solid #4a4a4a', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', filter: videoStarted ? 'none' : 'brightness(0.5)' }}
-          />
-          {/* <ProgressBar totalQuestions={4} answered={answered} /> */}
+    <>
+      {isLoading ? (
+        <VideoSpinner />
+      ) : (
+        <div className="flex justify-center items-center h-screen bg-gray-900">
+          <div className="text-center">
+            <h1 className="text-4xl text-white mb-8 font-bold">This is the Video Page!</h1>
+            <div className="mb-8">
+              <ReactPlayer
+                url="https://drive.google.com/file/d/1oBb-8sWqI0q5tP0VSXiXSoUb7EOykF6y/view"
+                playing={!videoPaused}
+                width="100%"
+                height="100%"
+                style={{
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                }}
+                onProgress={handleProgress}
+                onPlay={() => setVideoStarted(true)}
+                config={{
+                  youtube: {
+                    playerVars: {
+                      modestbranding: 1,
+                    },
+                  },
+                }}
+              />
+            </div>
+            <p className="text-lg text-gray-400">Here you can add your video content.</p>
+            <Modal show={showModal} onClose={handleCloseModal} onSubmit={handleSubmitModal} />
+            <Memo show={showGame} onClose={handleCloseMemo} onSubmit={handleSubmitMemo}/>
+          </div>
         </div>
-        <p className="text-lg text-gray-400">Here you can add your video content.</p>
-        <Modal show={showModal} onClose={handleCloseModal} onSubmit={handleSubmitModal} />
-        <Memo show={showGame} onClose={handleCloseMemo} onSubmit={handleSubmitMemo}/>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
