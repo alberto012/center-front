@@ -7,9 +7,17 @@ const VideoSpinner = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); 
+    }, 5000);
 
-    return () => clearTimeout(timer);
+    const audio = new Audio(spinnerVideo);
+    audio.play();
+
+    return () => {
+      clearTimeout(timer);
+      if (!audio.paused) {
+        audio.pause();
+      }
+    };
   }, []);
 
   return (
