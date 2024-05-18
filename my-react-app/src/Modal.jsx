@@ -31,10 +31,10 @@ const Modal = ({ show, onClose, onSubmit }) => {
     show && (
       <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-700 bg-opacity-75 z-50">
         <div className="bg-white p-8 rounded-lg">
-          <QuestionButton text="Question 1: Lorem ipsum dolor sit amet?" onAnswer={handleAnswer} question="question1" />
-          <QuestionButton text="Question 2: Consectetur adipiscing elit?" onAnswer={handleAnswer} question="question2" />
-          <QuestionButton text="Question 3: Sed do eiusmod tempor incididunt?" onAnswer={handleAnswer} question="question3" />
-          <QuestionButton text="Question 4: Ut labore et dolore magna aliqua?" onAnswer={handleAnswer} question="question4" />
+          <QuestionButton text="Question 1: A CEO is the leader of a company who makes important decisions.?" onAnswer={handleAnswer} question="question1" />
+          <QuestionButton text="Question 2: A company's mission is like a special goal that tells everyone what the company wants to achieve. " onAnswer={handleAnswer} question="question2" />
+          <QuestionButton text="Question 3: Vision is about seeing things with your eyes closed." onAnswer={handleAnswer} question="question3" />
+          <QuestionButton text="Question 4: Being a CEO means you have to be a superhero with superpowers." onAnswer={handleAnswer} question="question4" />
           {allQuestionsAnswered && (
             <button onClick={handleContinue} className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-600 rounded transition duration-300">
               Continue
