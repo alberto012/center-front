@@ -1,18 +1,32 @@
+// src/components/LoginPage.js
 import React, { useState } from 'react';
+import axios from 'axios';
 import gatas from '../images/gatas-comic.jpg';
-
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes realizar la autenticación, por ejemplo:
     if (username.trim() === '' || password.trim() === '') {
       alert('Por favor, ingresa un nombre de usuario y contraseña.');
       return;
     }
-    onLogin(username);
+  
+    try {
+      const response = await axios.get('/users.json'); // Ruta relativa desde la raíz
+      const users = response.data;
+      const user = users.find(user => user.username === username && user.password === password);
+  
+      if (user) {
+        onLogin(user.username, user.st);
+      } else {
+        alert('Usuario o contraseña incorrectos.');
+      }
+    } catch (error) {
+      console.error('Error al cargar los datos del usuario:', error);
+      alert('Hubo un problema con la autenticación. Inténtalo de nuevo más tarde.');
+    }
   };
 
   return (
