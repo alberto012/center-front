@@ -1,55 +1,92 @@
-// src/App.js
-import React, { useEffect, useState } from 'react';
+// src/App.jsx
+import React, { useEffect, useReducer } from 'react';
 import LoginPage from './Login';
 import HomePage from './Home';
 import VideoPage from './Video';
 import Spinner from './tools/Spinner';
+import ResumePage from './Resume';
+import MyCompanyPage from './MyCompany';
+
+const initialState = {
+  user: null,
+  currentPage: 'login',
+  isLoading: true,
+  userHasSt: false,
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'LOGIN':
+      return {
+        ...state,
+        user: action.payload.username,
+        userHasSt: action.payload.st,
+        currentPage: 'home',
+      };
+    case 'LOGOUT':
+      return {
+        ...state,
+        user: null,
+        userHasSt: false,
+        currentPage: 'login',
+      };
+    case 'SET_PAGE':
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
+    case 'SET_LOADING':
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    default:
+      return state;
+  }
+};
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [currentPage, setCurrentPage] = useState('login');
-  const [isLoading, setIsLoading] = useState(true);
-  const [userHasSt, setUserHasSt] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleLogin = (username, st) => {
-    setUser(username);
-    setUserHasSt(st);
-    setCurrentPage('home');
+    dispatch({ type: 'LOGIN', payload: { username, st } });
   };
 
   const handleLogout = () => {
-    setUser(null);
-    setUserHasSt(false);
-    setCurrentPage('login');
+    dispatch({ type: 'LOGOUT' });
   };
 
-  const handleGoToVideoPage = () => {
-    setCurrentPage('video');
+  const handlePageChange = (page) => {
+    dispatch({ type: 'SET_PAGE', payload: page });
   };
 
-  let content;
-  if (currentPage === 'login') {
-    content = <LoginPage onLogin={handleLogin} />;
-  } else if (currentPage === 'home') {
-    content = (
+  const { user, currentPage, isLoading, userHasSt } = state;
+
+  const pageComponents = {
+    login: <LoginPage onLogin={handleLogin} />,
+    home: (
       <HomePage
         username={user}
         onLogout={handleLogout}
-        onGoToVideoPage={handleGoToVideoPage}
+        onGoToVideoPage={() => handlePageChange('video')}
         st={userHasSt}
+        onGoToResumePage={() => handlePageChange('resume')}
+        onGoToMyCompanyPage={() => handlePageChange('myCompany')}
       />
-    );
-  } else if (currentPage === 'video') {
-    content = <VideoPage />;
-  }
+    ),
+    video: <VideoPage />,
+    resume: <ResumePage />,
+    myCompany: <MyCompanyPage />,
+  };
 
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 4000);
-  }, []);
-
-  return <div>{isLoading ? <Spinner /> : content}</div>;
+  return <div>{isLoading ? <Spinner /> : pageComponents[currentPage]}</div>;
 };
 
 export default App;

@@ -1,0 +1,30 @@
+{
+    "episodes": [
+      {
+        "image": "https://img.freepik.com/vector-gratis/fondo-degradado-suave-lineas-azules_23-2148964962.jpg",
+        "title": "Episode 1: Title",
+        "description": "Description of Episode 1"
+      },
+      {
+        "image": "https://www.lavanguardia.com/files/og_thumbnail/uploads/2022/04/07/624e6764e7b25.jpeg",
+        "title": "Episode 2: Title",
+        "description": "Description of Episode 2"
+      },
+      {
+        "image": "https://img.freepik.com/fotos-premium/translucidez-cautivadora-desatando-encanto-arte-liquido-pintura-al-oleo_480962-43991.jpg",
+        "title": "Episode 3: Title",
+        "description": "Description of Episode 3"
+      },
+      {
+        "image": "https://s0.smartresize.com/wallpaper/267/577/HD-wallpaper-blue-neon-abstract-blue-geoglyser-green-nature-neon-yellow-art-beautiful-color-fluid-galaxy-iphone-nebula-psychedelic-trippy-waves-thumbnail.jpg",
+        "title": "Episode 4: Title",
+        "description": "Description of Episode 4"
+      },
+      {
+        "image": "https://services.meteored.com/img/article/cuantos-azules-tiene-el-cielo-289011-3_1280.jpg",
+        "title": "Episode 5: Title",
+        "description": "Description of Episode 5"
+      }
+    ]
+  }
+  
