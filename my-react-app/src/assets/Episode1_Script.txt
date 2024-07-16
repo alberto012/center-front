@@ -1,0 +1,8 @@
+Script:
+6:06: Continue button
+9:00:   Activity 1 - Submit the problem you want to solve - Type: Text Box (agregar replay explanation, examples)
+9:42:   Activity 2 - Submit your solution - Type: Text Box()
+10:58:  Activity 3 - Submit your target market - type: Options Box (Age, location, interest)
+10:54:  Activity 4 - Submit your company name - type: Text Box
+14:23:  Activity 5 - Submit your company logo - type: Options Box/Drawing
+15:26:  Game 1     - Choose the right answer  - type: Choose the right answer (3 preguntas, elegir los logos correctos con la descripcion, ej: elegir el logotipo, elegir isotipo, etc)
