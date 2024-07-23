@@ -1,15 +1,28 @@
-// src/App.jsx
-import React, { useEffect, useReducer } from 'react';
-import LoginPage from './Login';
-import HomePage from './Home';
-import VideoPage from './Video';
-import Spinner from './tools/Spinner';
-import ResumePage from './Resume';
-import MyCompanyPage from './MyCompany';
+// App.jsx
+import React, { useReducer, useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import HomePage from './components/Home';
+import VideoPage from './components/Video';
+import ResumePage from './components/Resume';
+import MyCompanyPage from './components/MyCompany';
+import LoginPage from './components/Login';
+import Spinner from './components/Spinner'; // Asegúrate de tener este componente
+
+const mockUsers = [
+  {
+    username: 'user1',
+    password: '123',
+    st: true
+  },
+  {
+    username: 'user2',
+    password: '123',
+    st: false
+  }
+];
 
 const initialState = {
   user: null,
-  currentPage: 'login',
   isLoading: true,
   userHasSt: false,
 };
@@ -19,21 +32,16 @@ const reducer = (state, action) => {
     case 'LOGIN':
       return {
         ...state,
-        user: action.payload.username,
+        user: action.payload,
         userHasSt: action.payload.st,
-        currentPage: 'home',
+        isLoading: false,
       };
     case 'LOGOUT':
       return {
         ...state,
         user: null,
         userHasSt: false,
-        currentPage: 'login',
-      };
-    case 'SET_PAGE':
-      return {
-        ...state,
-        currentPage: action.payload,
+        isLoading: false,
       };
     case 'SET_LOADING':
       return {
@@ -47,6 +55,7 @@ const reducer = (state, action) => {
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -55,38 +64,51 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleLogin = (username, st) => {
-    dispatch({ type: 'LOGIN', payload: { username, st } });
+  const handleLogin = (user) => {
+    const foundUser = mockUsers.find(u => u.username === user.username && u.password === user.password);
+
+    if (foundUser) {
+      dispatch({ type: 'LOGIN', payload: foundUser });
+      navigate('/home');
+    } else {
+      alert('Usuario o contraseña incorrectos.');
+    }
   };
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
+    navigate('/login');
   };
 
-  const handlePageChange = (page) => {
-    dispatch({ type: 'SET_PAGE', payload: page });
-  };
+  const { user, isLoading, userHasSt } = state;
 
-  const { user, currentPage, isLoading, userHasSt } = state;
-
-  const pageComponents = {
-    login: <LoginPage onLogin={handleLogin} />,
-    home: (
-      <HomePage
-        username={user}
-        onLogout={handleLogout}
-        onGoToVideoPage={() => handlePageChange('video')}
-        st={userHasSt}
-        onGoToResumePage={() => handlePageChange('resume')}
-        onGoToMyCompanyPage={() => handlePageChange('myCompany')}
-      />
-    ),
-    video: <VideoPage />,
-    resume: <ResumePage />,
-    myCompany: <MyCompanyPage />,
-  };
-
-  return <div>{isLoading ? <Spinner /> : pageComponents[currentPage]}</div>;
+  return (
+    <div>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <Routes>
+          <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
+          <Route
+            path="/home"
+            element={
+              <HomePage
+                username={user?.username}
+                onLogout={handleLogout}
+                onGoToVideoPage={() => navigate('/video')}
+                st={userHasSt}
+                onGoToResumePage={() => navigate('/resume')}
+                onGoToMyCompanyPage={() => navigate('/myCompany')}
+              />
+            }
+          />
+          <Route path="/video" element={<VideoPage />} />
+          <Route path="/resume" element={<ResumePage />} />
+          <Route path="/myCompany" element={<MyCompanyPage />} />
+        </Routes>
+      )}
+    </div>
+  );
 };
 
 export default App;

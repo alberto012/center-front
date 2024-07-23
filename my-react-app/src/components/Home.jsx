@@ -1,6 +1,5 @@
-// src/components/HomePage.jsx
 import React from 'react';
-import fotodos from './assets/FondoGeneral.png';
+import fotodos from '../assets/FondoGeneral.png';
 import { CiPlay1 } from "react-icons/ci";
 
 const HomePage = ({ username, onLogout, onGoToVideoPage, onGoToResumePage, onGoToMyCompanyPage, st }) => {
@@ -24,7 +23,6 @@ const HomePage = ({ username, onLogout, onGoToVideoPage, onGoToResumePage, onGoT
           colors: 'from-blue-700 to-blue-400',
         },
         {
-         
           onClick: onLogout,
           text: 'Logout',
           colors: 'from-blue-700 to-red-400',

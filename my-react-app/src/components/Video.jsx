@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
-import Modal from './Modal';
-import VideoSpinner from './tools/Spinner';
-import ProgressBar from './Progreso'; // Importamos el componente ProgressBar
-import futuro from '../images/futuro.jfif';
-import Memo from './Memo';
+import Modal from './Modals/Modal';
+import VideoSpinner from './Spinner';
+import ProgressBar from '../Progreso'; // Importamos el componente ProgressBar
+import Memo from '../Memo';
 
 const VideoPage = () => {
   const [showModal, setShowModal] = useState(false);

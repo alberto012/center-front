@@ -1,31 +1,42 @@
-// src/components/LoginPage.js
+// LoginPage.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import gatas from '../images/gatas-comic.jpg';
+import gatas from '../../images/gatas-comic.jpg';
+
+const mockUsers = [
+  {
+    username: 'user1',
+    password: '123',
+    st: true
+  },
+  {
+    username: 'user2',
+    password: '123',
+    st: false
+  }
+];
+
 const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
+
     if (username.trim() === '' || password.trim() === '') {
-      alert('Por favor, ingresa un nombre de usuario y contraseña.');
+      setError('Por favor, ingresa un nombre de usuario y contraseña.');
       return;
     }
-  
-    try {
-      const response = await axios.get('/users.json'); // Ruta relativa desde la raíz
-      const users = response.data;
-      const user = users.find(user => user.username === username && user.password === password);
-  
-      if (user) {
-        onLogin(user.username, user.st);
-      } else {
-        alert('Usuario o contraseña incorrectos.');
-      }
-    } catch (error) {
-      console.error('Error al cargar los datos del usuario:', error);
-      alert('Hubo un problema con la autenticación. Inténtalo de nuevo más tarde.');
+
+    const user = mockUsers.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      console.log(user,'us')
+      onLogin(user);
+    } else {
+      setError('Usuario o contraseña incorrectos.');
     }
   };
 
@@ -49,6 +60,7 @@ const LoginPage = ({ onLogin }) => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full px-4 py-2 mb-4 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
         <button
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-600 rounded transition duration-300"
