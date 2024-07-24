@@ -77,7 +77,7 @@ const App = () => {
 
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
-    navigate('/login');
+    navigate('/');
   };
 
   const { user, isLoading, userHasSt } = state;
@@ -93,6 +93,7 @@ const App = () => {
             path="/home"
             element={
               <HomePage
+                data={user}
                 username={user?.username}
                 onLogout={handleLogout}
                 onGoToVideoPage={() => navigate('/video')}

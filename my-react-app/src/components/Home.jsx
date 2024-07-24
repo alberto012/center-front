@@ -2,11 +2,11 @@ import React from 'react';
 import fotodos from '../assets/FondoGeneral.png';
 import { CiPlay1 } from "react-icons/ci";
 
-const HomePage = ({ username, onLogout, onGoToVideoPage, onGoToResumePage, onGoToMyCompanyPage, st }) => {
+const HomePage = ({ username, user, onLogout, onGoToVideoPage, onGoToResumePage, onGoToMyCompanyPage, st }) => {
   const buttonConfig = st
     ? [
         {
-          onClick: onGoToResumePage,
+          onClick: () => onGoToResumePage({ user, onLogout }), // Pasa la información del usuario
           text: 'Resume',
           colors: 'from-blue-700 to-blue-400',
         },
