@@ -6,7 +6,6 @@ import backgroundImage from '../assets/fondoBotton.png';
 const ResumePage = ({ user }) => {
   const [episodes, setEpisodes] = useState([]);
   const [lastReproduced, setLastReproduced] = useState('');
-  console.log(user, '😊😊')
   useEffect(() => {
     if (user) {
        

@@ -1,4 +1,4 @@
-// App.jsx
+
 import React, { useReducer, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import HomePage from './components/Home';
@@ -6,7 +6,7 @@ import VideoPage from './components/Video';
 import ResumePage from './components/Resume';
 import MyCompanyPage from './components/MyCompany';
 import LoginPage from './components/Login';
-import Spinner from './components/Spinner'; // Asegúrate de tener este componente
+import Spinner from './components/Spinner'; 
 
 const mockUsers = [
   {

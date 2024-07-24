@@ -1,6 +1,5 @@
-// LoginPage.jsx
+
 import React, { useState } from 'react';
-import axios from 'axios';
 import gatas from '../../images/gatas-comic.jpg';
 
 const mockUsers = [

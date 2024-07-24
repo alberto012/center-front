@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import Modal from './Modals/Modal';
 import VideoSpinner from './Spinner';
-import ProgressBar from '../Progreso'; // Importamos el componente ProgressBar
 import Memo from '../Memo';
 
 const VideoPage = () => {
@@ -58,7 +57,6 @@ const VideoPage = () => {
   };
 
   const handleSubmitMemo = (question, answer) => {
-    // Aquí puedes manejar la lógica para enviar la respuesta a tu backend, por ejemplo:
     console.log(`Question ${question} answered with ${answer}`);
   };
 
