@@ -6,7 +6,7 @@ const HomePage = ({ username, user, onLogout, onGoToVideoPage, onGoToResumePage,
   const buttonConfig = st
     ? [
         {
-          onClick: () => onGoToResumePage({ user, onLogout }), // Pasa la información del usuario
+          onClick: () => onGoToResumePage({ user, onLogout }), 
           text: 'Resume',
           colors: 'from-blue-700 to-blue-400',
         },

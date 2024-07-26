@@ -3,8 +3,9 @@ import ReactPlayer from 'react-player';
 import Modal from './Modals/Modal';
 import VideoSpinner from './Spinner';
 import Memo from '../Memo';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const VideoPage = () => {
+const VideoPage = ({ onUpdateUser }) => {
   const [showModal, setShowModal] = useState(false);
   const [showGame, setShowGame] = useState(false);
   const [answered, setAnswered] = useState({
@@ -19,6 +20,10 @@ const VideoPage = () => {
   const [lastMemoTime, setLastMemoTime] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { episode } = location.state || {};
+
   useEffect(() => {
     if (showModal) {
       setVideoPaused(true);
@@ -28,7 +33,6 @@ const VideoPage = () => {
   const handleProgress = ({ playedSeconds }) => {
     const currentSecond = Math.floor(playedSeconds);
     if (currentSecond !== 0 && currentSecond === 60 && !showGame && currentSecond !== lastMemoTime) {
-      //setShowModal(true);
       setShowGame(true);
       setVideoPaused(true);
       setLastMemoTime(currentSecond);
@@ -36,7 +40,6 @@ const VideoPage = () => {
 
     if (currentSecond !== 0 && currentSecond === 30 && !showModal && currentSecond !== lastModalTime) {
       setShowModal(true);
-      //setShowGame(true);
       setVideoPaused(true);
       setLastModalTime(currentSecond);
     }
@@ -60,6 +63,13 @@ const VideoPage = () => {
     console.log(`Question ${question} answered with ${answer}`);
   };
 
+  const handleVideoEnd = () => {
+    if (episode) {
+      onUpdateUser(episode);
+    }
+    navigate('/resume');
+  };
+
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false);
@@ -76,7 +86,7 @@ const VideoPage = () => {
             <h1 className="text-4xl text-white mb-8 font-bold">This is the Video Page!</h1>
             <div className="mb-8">
               <ReactPlayer
-                url="https://drive.google.com/file/d/1oBb-8sWqI0q5tP0VSXiXSoUb7EOykF6y/view"
+                url={episode ? `path/to/videos/${episode.title}.mp4` : ''} 
                 playing={!videoPaused}
                 width="100%"
                 height="100%"
@@ -87,6 +97,7 @@ const VideoPage = () => {
                 }}
                 onProgress={handleProgress}
                 onPlay={() => setVideoStarted(true)}
+                onEnded={handleVideoEnd}
                 config={{
                   youtube: {
                     playerVars: {
@@ -98,7 +109,7 @@ const VideoPage = () => {
             </div>
             <p className="text-lg text-gray-400">Here you can add your video content.</p>
             <Modal show={showModal} onClose={handleCloseModal} onSubmit={handleSubmitModal} />
-            <Memo show={showGame} onClose={handleCloseMemo} onSubmit={handleSubmitMemo}/>
+            <Memo show={showGame} onClose={handleCloseMemo} onSubmit={handleSubmitMemo} />
           </div>
         </div>
       )}

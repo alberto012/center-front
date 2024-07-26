@@ -1,12 +1,20 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import gatas from '../../images/gatas-comic.jpg';
 
 const mockUsers = [
   {
     username: 'user1',
     password: '123',
-    st: true
+    st: true,
+    reproducedChapters: [
+      {
+        title: "Episode 1: Title"
+      },
+      {
+        title: "Episode 3: Title"
+      }
+    ]
   },
   {
     username: 'user2',
@@ -19,6 +27,7 @@ const LoginPage = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,8 +41,7 @@ const LoginPage = ({ onLogin }) => {
     const user = mockUsers.find(u => u.username === username && u.password === password);
 
     if (user) {
-      console.log(user,'us')
-      onLogin(user);
+      navigate('/resume', { state: { user } });
     } else {
       setError('Usuario o contraseña incorrectos.');
     }

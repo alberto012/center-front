@@ -12,7 +12,10 @@ const mockUsers = [
   {
     username: 'user1',
     password: '123',
-    st: true
+    st: true,
+    reproducedChapters: [
+      { title: 'Episode 1: Title' }
+    ]
   },
   {
     username: 'user2',
@@ -74,7 +77,12 @@ const App = () => {
       alert('Usuario o contraseña incorrectos.');
     }
   };
-
+  const handleUpdateUser = (episode) => {
+    setUser(prevUser => ({
+      ...prevUser,
+      reproducedChapters: [...prevUser.reproducedChapters, episode]
+    }));
+  };
   const handleLogout = () => {
     dispatch({ type: 'LOGOUT' });
     navigate('/');
@@ -103,7 +111,7 @@ const App = () => {
               />
             }
           />
-          <Route path="/video" element={<VideoPage />} />
+           <Route path="/video" element={<VideoPage onUpdateUser={handleUpdateUser} />} />
           <Route path="/resume" element={<ResumePage />} />
           <Route path="/myCompany" element={<MyCompanyPage />} />
         </Routes>
